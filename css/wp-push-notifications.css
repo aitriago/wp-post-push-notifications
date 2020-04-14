@@ -1,0 +1,27 @@
+/* css */
+
+.wpn_bttn
+{ 
+    display: block;
+    width: 120px;
+    height: 36px;
+    background-color: cornflowerblue;
+    border: 1px solid white;
+    padding: 6px;
+    color:white !important;
+    font-weight: bold;    
+    text-align: center;    
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: .8em;
+}
+
+.sent
+{
+    background-color: green;
+}
+
+.notified
+{
+    background-color: chocolate;
+}
