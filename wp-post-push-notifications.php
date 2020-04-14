@@ -9,9 +9,11 @@
  * License: GPL3
  */
 
-class FaxinfoPushNotifications
+class WpPostPushNotifications
  {
     private  $wpdb;
+    private $_FIREBASE_ID="FIREBASE ID";
+    private $_NOTIFICATION_TITLE="NOTIFICATION_TITLE";
     function __construct( ) {
         $this->wpdb=$GLOBALS['wpdb'];
         $this->init_db();
@@ -29,7 +31,7 @@ class FaxinfoPushNotifications
         // Setup filter hook to show Read Me Later link
         add_filter( 'the_excerpt', array( $this, 'wpn_button' ) );
         add_filter( 'the_content', array( $this, 'wpn_button' ) );
-        add_action('faxinfo_push_notification_cron_job',array($this,'exec_push_notification'));
+        add_action('wp_post_push_notification_cron_job',array($this,'exec_push_notification'));
         // Sets crontab filter
         // Setup Ajax action hook
     }
@@ -54,7 +56,7 @@ class FaxinfoPushNotifications
         foreach($notifications as $notification){
             $msg =[
                 'body'	=>  preg_replace_callback("/(&#[0-9]+;)/", function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); },$notification['title']),
-                'title'	  => 'FAXINFO',
+                'title'	  => $this->_NOTIFICATION_TITLE,
                 'sound'=>'notification',
             ];
             $registration_ids=[];
@@ -97,7 +99,7 @@ class FaxinfoPushNotifications
             }
         }
         $headers =[
-            'Authorization'=>'key=AAAAE0SNb-s:APA91bEvuG5h19uUqdcjC4KteD3czejofiBV0A-pDw13z_JVynyatiGOHPdzkDsZVWF-eYZ4NX4ICknb9a-rr8tCg1nxCCoryqOX5PTwUzvGEMD-M0SZCyaLo7gbMCZeYIlWqiMCovUo',
+            'Authorization'=>'key='.$this->_FIREBASE_ID,
             'Content-Type'=>'application/json'
         ];
         $deleteUsers=[];
@@ -234,4 +236,4 @@ class FaxinfoPushNotifications
     }
  }
 
- new FaxinfoPushNotifications();
+ new WpPostPushNotifications();
